@@ -1,7 +1,8 @@
 function [im_adjusted] = backgroundcorrection(im_roi, im_background, center, radius)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-% Test background filter techniques
+% Background Correction corrects  uneven illumination in an retinal disk image
+%   Correction is based on slice of the retina that does not contain pathology
+%   By default, the choroid layer is used for im_background
+%   Optic disk is excluded from analysis and set as NaN
 
 figure(); imagesc(im_roi); colormap('gray'); axis('square'); title('RPC');
 figure(); imagesc(im_background); colormap('gray'); axis('square'); title('Choroid');
