@@ -1,4 +1,6 @@
 function image_output = threshvesselremoval(image_input, vessels_image_input)
+% ThreshVesselRemoval removes vessels from image based on bradley local thresholding
+% matrix = threshvesselremoval(matrix, matrix)
 
 debugging = false;
 
