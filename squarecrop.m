@@ -10,12 +10,12 @@ function [output_image] = squarecrop(image, side_length)
         error('Crop Error: crop side length must be input as a number');
     end
     
+    disp(side_length)
     if (size(image,1) > side_length || size(image,2) > side_length)
-        startx = round((size(image,1) - side_length) / 2) + 1;
-        starty = round((size(image,2) - side_length) / 2) + 1;
+        start_x = round((size(image,1) - side_length) / 2) + 1;
+        start_y = round((size(image,2) - side_length) / 2) + 1;
         crop_length = side_length - 1;
-        crop_dimensions = [startx starty crop_length crop_length];
-        output_image = imcrop(image, crop_dimensions);
+        output_image = image(start_x:start_x+crop_length, start_y:start_y+crop_length);
         % disp(size(output_image)); %Debugging
     elseif (size(image,1) == side_length && size(image,2) == side_length)
         disp('Warning: input image has same demensions as crop size. No changes were made.')
