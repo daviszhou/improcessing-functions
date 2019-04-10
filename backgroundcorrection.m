@@ -1,11 +1,14 @@
-function im_adjusted = backgroundcorrection(im_roi, im_background, center, radius, has_adjustment_constant, has_disk_mask)
+function im_adjusted = backgroundcorrection(im_roi, im_background, center, radius, has_adjustment_constant, has_disk_mask, show_figures)
 % Background Correction corrects  uneven illumination in an retinal disk image
 %   Correction is based on slice of the retina that does not contain pathology
 %   By default, the choroid layer is used for the background
 %   Optic disk is excluded from analysis and set as NaN
 
-figure(); imagesc(im_roi); colormap('gray'); axis('square'); title('RPC');
-figure(); imagesc(im_background); colormap('gray'); axis('square'); title('Choroid');
+%% Show input figures
+if show_figures
+    figure(); imagesc(im_roi); colormap('gray'); axis('square'); title('ROI');
+    figure(); imagesc(im_background); colormap('gray'); axis('square'); title('Background');
+end
 
 %% Create low pass version for calcuation of adjustment constant
 im_roi_lp = imgaussfilt(im_roi, 5);
@@ -45,6 +48,9 @@ else
     im_adjusted = im_roi ./ im_background .* 150;
 end
 
-figure(); imagesc(im_adjusted); colormap('gray'); axis('square'); title('Adjusted'); caxis([0 255])
+%% Show output figure
+if show_figures
+    figure(); imagesc(im_adjusted); colormap('gray'); axis('square'); title('Adjusted'); caxis([0 255])
+end
 
 end
