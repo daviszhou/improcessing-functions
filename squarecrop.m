@@ -8,8 +8,8 @@ function [output_image] = squarecrop(image, side_length)
     end
     
     if (size(image,1) > side_length || size(image,2) > side_length)
-        start_x = round((size(image,1) - side_length) / 2) + 1;
-        start_y = round((size(image,2) - side_length) / 2) + 1;
+        start_x = round((size(image,1)/2 - side_length) / 2) + 1;
+        start_y = round((size(image,2)/2 - side_length) / 2) + 1;
         crop_length = side_length - 1;
         output_image = image(start_x:start_x+crop_length, start_y:start_y+crop_length);
         % disp(size(output_image)); %Debugging
