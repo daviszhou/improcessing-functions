@@ -17,7 +17,17 @@ function [output_image] = squarecrop(image, side_length)
         disp('Warning: input image has same demensions as crop size. No changes were made.')
         output_image = image;
     elseif (size(image,1) < side_length || size(image,2) < side_length)
-        error('Crop Error: input image is smaller than crop size')
+        disp('Warning: input image is smaller than crop size. Image will be placed in a canvas with crop-size dimensions')
+        
+        [image_length_x image_length_y] = size(image);
+
+        larger_canvas=uint8(zeros(side_length, side_length));
+        startpix_x=side_length/2 - size(image,1)/2 + 1; % set x displacement
+        startpix_y=side_length/2 - size(image,2)/2 + 1; % set y displacement
+        larger_canvas_temp = larger_canvas;
+
+        larger_canvas_temp(startpix_x:startpix_x+image_length_x-1, startpix_y:startpix_y+image_length_y-1)=image;
+        output_image=larger_canvas_temp;
     else
         error('Crop Error: check squarecrop input image')
     end
