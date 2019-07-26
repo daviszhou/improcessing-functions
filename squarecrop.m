@@ -11,8 +11,8 @@ function [output_image] = squarecrop(image, output_side_length)
     [image_length_x, image_length_y] = size(image);
     
     if (image_length_x > output_side_length || image_length_y > output_side_length)
-        start_crop_x = round((image_length_x/2 - output_side_length)/2) + 1;
-        start_crop_y = round((image_length_y/2 - output_side_length)/2) + 1;
+        start_crop_x = round(image_length_x/2 - output_side_length/2 + 1);
+        start_crop_y = round(image_length_y/2 - output_side_length/2 + 1);
         crop_length = output_side_length - 1;
         output_image = image(start_crop_x : start_crop_x+crop_length, start_crop_y : start_crop_y+crop_length);
         % disp(size(output_image)); %Debugging
