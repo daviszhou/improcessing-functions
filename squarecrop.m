@@ -10,7 +10,7 @@ function [output_image] = squarecrop(image, output_side_length)
     
     [image_length_x, image_length_y] = size(image);
     
-    if (image_length_x > output_side_length || image_length_y > output_side_length)
+    if (image_length_x > output_side_length && image_length_y > output_side_length)
         start_crop_x = round(image_length_x/2 - output_side_length/2 + 1);
         start_crop_y = round(image_length_y/2 - output_side_length/2 + 1);
         crop_length = output_side_length - 1;
@@ -21,11 +21,21 @@ function [output_image] = squarecrop(image, output_side_length)
         output_image = image;
     elseif (image_length_x < output_side_length || image_length_y < output_side_length)
         disp('Warning: input image is smaller than crop size. Image will be placed in a canvas with crop-size dimensions')
-        larger_canvas = uint8(zeros(output_side_length, output_side_length));
-        start_border_x = output_side_length/2 - image_length_x/2 + 1; % set x displacement
-        start_border_y = output_side_length/2 - image_length_y/2 + 1; % set y displacement
+        larger_side_length = max([image_length_x, image_length_y, output_side_length]);
+        larger_canvas = uint8(zeros(larger_side_length, larger_side_length));
+        
+        start_border_x = larger_side_length/2 - image_length_x/2 + 1; % set x displacement
+        start_border_y = larger_side_length/2 - image_length_y/2 + 1; % set y displacement
         larger_canvas(start_border_x : start_border_x+image_length_x-1, start_border_y : start_border_y+image_length_y-1) = image;
-        output_image = larger_canvas;
+        
+        if image_length_x > output_side_length || image_length_y > output_side_length
+            start_crop_x = round(image_length_x/2 - output_side_length/2 + 1);
+            start_crop_y = round(image_length_y/2 - output_side_length/2 + 1);
+            crop_length = output_side_length - 1;
+            output_image = larger_canvas(start_crop_x : start_crop_x+crop_length, start_crop_y : start_crop_y+crop_length);
+        else
+            output_image = larger_canvas;
+        end
     else
         error('Crop Error: check squarecrop input image')
     end
