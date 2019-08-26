@@ -1,4 +1,4 @@
-function [output_image] = squarecrop(image, output_side_length)
+function [output_image, added_borders] = squarecrop(image, output_side_length)
     % Crops input image into a square with defined side-length
     % Adds black borders if crop size is larger than image dimensions
     % Maintains the center of the image
@@ -9,6 +9,7 @@ function [output_image] = squarecrop(image, output_side_length)
     end
     
     [image_length_x, image_length_y] = size(image);
+    added_borders = [];
     
     if (image_length_x > output_side_length && image_length_y > output_side_length)
         start_crop_x = round(image_length_x/2 - output_side_length/2 + 1);
@@ -23,10 +24,13 @@ function [output_image] = squarecrop(image, output_side_length)
         disp('Warning: input image is smaller than crop size. Image will be placed in a canvas with crop-size dimensions')
         larger_side_length = max([image_length_x, image_length_y, output_side_length]);
         larger_canvas = uint8(zeros(larger_side_length, larger_side_length));
+        larger_canvas_borders = uint8(ones(larger_side_length, larger_side_length));
         
         start_border_x = larger_side_length/2 - image_length_x/2 + 1; % set x displacement
         start_border_y = larger_side_length/2 - image_length_y/2 + 1; % set y displacement
         larger_canvas(start_border_x : start_border_x+image_length_x-1, start_border_y : start_border_y+image_length_y-1) = image;
+        larger_canvas_borders(start_border_x : start_border_x+image_length_x-1, start_border_y : start_border_y+image_length_y-1) = 0;
+        added_borders = larger_canvas_borders;
         
         if image_length_x > output_side_length || image_length_y > output_side_length
             start_crop_x = round(image_length_x/2 - output_side_length/2 + 1);
